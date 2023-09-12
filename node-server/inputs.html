@@ -1,0 +1,13 @@
+<html>
+<body>
+    <p id="demo"></p>
+    <script>
+        const webSocket = new WebSocket(location.origin.replace(/^http/, 'ws'));
+        document.addEventListener("keypress", function(event){
+            var x = event.which || event.keyCode;
+            document.getElementById("demo").innerHTML = "The Unicode value is: " + x;
+            webSocket.send(x.toString());
+        });
+    </script>
+</body>
+</html>
