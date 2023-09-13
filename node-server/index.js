@@ -29,9 +29,10 @@ ws_inputs_server.on('connection', (ws) => {
     console.log('New client connected!');
     
     ws.on('message', function (data) {
-        processInput(data)
+        // processInput(data)
+        console.log(JSON.parse(data))
         ws_game_server.clients.forEach((client) => {
-            client.send(data);
+            client.send(JSON.stringify(data));
           });
     })
     

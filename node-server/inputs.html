@@ -3,10 +3,16 @@
     <p id="demo"></p>
     <script>
         const webSocket = new WebSocket(location.origin.replace(/^http/, 'ws'));
-        document.addEventListener("keypress", function(event){
+        document.addEventListener("keydown", function(event){
             var x = event.which || event.keyCode;
-            document.getElementById("demo").innerHTML = "The Unicode value is: " + x;
-            webSocket.send(x.toString());
+            document.getElementById("demo").innerHTML = "Keydown : " + x;
+            webSocket.send(JSON.stringify({event:'keydown', key:x}));
+        });
+
+        document.addEventListener("keyup", function(event){
+            var x = event.which || event.keyCode;
+            document.getElementById("demo").innerHTML = "Keyup " + x;
+            webSocket.send(JSON.stringify({event:'keyup', key:x}));
         });
     </script>
 </body>
