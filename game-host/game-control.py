@@ -4,10 +4,13 @@ import time
 import _thread
 import websocket
 import json
+import base64
 from types import SimpleNamespace
 
+# key = "space"
 name = "mari0"
 url = "ws://129.159.21.84:3001/"
+
 
 def on_message(ws, message):
     message = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
