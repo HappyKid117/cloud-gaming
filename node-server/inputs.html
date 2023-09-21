@@ -1,19 +1,25 @@
 <html>
 <body>
-    <p id="demo"></p>
+    <p id="KeyPressed"></p>
+    <p id="Mouse"></p>
     <script>
         const webSocket = new WebSocket(location.origin.replace(/^http/, 'ws'));
         document.addEventListener("keydown", function(event){
             var x = event.which || event.keyCode;
-            document.getElementById("demo").innerHTML = "Keydown : " + x;
+            document.getElementById("KeyPressed").innerHTML = "Keydown : " + x;
             webSocket.send(JSON.stringify({event:'keydown', key:x}));
         });
 
         document.addEventListener("keyup", function(event){
             var x = event.which || event.keyCode;
-            document.getElementById("demo").innerHTML = "Keyup " + x;
+            document.getElementById("KeyPressed").innerHTML = "Keyup " + x;
             webSocket.send(JSON.stringify({event:'keyup', key:x}));
         });
+
+        onmousemove = function(e){
+            document.getElementById("Mouse").innerHTML = "Mouse : " + e.clientX + ", " + e.clientY;
+            webSocket.send(JSON.stringify({event:'mousemove', x:e.clientX, y:e.clientY}));
+        }
     </script>
 </body>
 </html>

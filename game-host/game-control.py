@@ -6,30 +6,31 @@ import websocket
 import json
 import base64
 from types import SimpleNamespace
+import pyautogui
+import pydirectinput
 
 # key = "space"
 name = "mari0"
 url = "ws://129.159.21.84:3001/"
 
-
 def on_message(ws, message):
     message = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
     message = "".join(map(chr, message.data))
     message = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
-
-    window_id = int(subprocess.check_output(['xdotool', 'search', "--name", name]))
-
-    key = chr(message.key)
-    if(key == " "):
-        key = "space"
-
-    if(message.event == "keyup"):
-        command = "xdotool keyup --window " + str(window_id) + " " + key
-    else:
-        command = "xdotool keydown --window " + str(window_id) + " " + key
-    print(command)
-    os.system(command)
-
+    
+    if message.event == 'keydown':
+        key = message.key
+        if(key>=64 and key<=90):
+            key = key+32
+        pydirectinput.keyDown(chr(key))
+    elif message.event == 'keyup':
+        key = message.key
+        if(key>=64 and key<=90):
+            key = key+32
+        pydirectinput.keyUp(chr(key))
+    # elif message.event == 'mousemove':
+    #     # pydirectinput.moveTo(message.x, message.y)
+    
 def on_error(ws, error):
     print (error)
 
@@ -47,6 +48,8 @@ def on_open(ws):
     thread.start_new_thread(run, ())
 
 if __name__ == "__main__":
+    pyautogui.moveTo(1010, 1057)
+    pyautogui.click()
     websocket.enableTrace(True)
     ws = websocket.WebSocketApp(url,
                                 on_message = on_message,
