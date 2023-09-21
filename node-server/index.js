@@ -2,6 +2,7 @@ const express = require("express");
 fs = require('fs');
 const { Server } = require('ws');
 var https = require('https');
+var http = require('http')
 
 let key = fs.readFileSync(__dirname+'/secrets/tutorial.key','utf-8')
 let cert = fs.readFileSync(__dirname+'/secrets/tutorial.crt','utf-8')
@@ -11,7 +12,7 @@ const parameters = {
   cert: cert
 }
 
-const inputs_port = 443;
+const inputs_port = 3000;
 const game_port = 3001;
 
 // Helper Functions
@@ -36,7 +37,7 @@ inputs_app.get('/',(req,res)=>{
     res.sendFile('/inputs.html', { root: __dirname })
 })
 
-let inputs_server = https.createServer(parameters,inputs_app);
+let inputs_server = http.createServer(parameters,inputs_app);
 inputs_server.listen(inputs_port,()=>{
   console.log(`Server is listening at port ${inputs_port}`)
 })
